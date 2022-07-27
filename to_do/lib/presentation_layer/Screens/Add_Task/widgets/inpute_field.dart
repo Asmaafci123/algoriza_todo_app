@@ -5,12 +5,14 @@ class InputField extends StatefulWidget {
   final IconData? suffixIcon;
   final VoidCallback? onPressedSuffix;
   final TextEditingController controller;
+  final FormFieldValidator<String>? validator;
   const InputField(
       {Key? key,
       this.onPressedSuffix,
       required this.hintText,
       this.suffixIcon,
-      required this.controller})
+      required this.controller,
+      required this.validator})
       : super(key: key);
 
   @override
@@ -25,6 +27,7 @@ class _InputFieldState extends State<InputField> {
         controller: widget.controller,
         style: const TextStyle(color: Colors.grey),
         onTap: widget.onPressedSuffix,
+        validator: widget.validator,
         decoration: InputDecoration(
           hintText: widget.hintText,
           suffixIcon: IconButton(

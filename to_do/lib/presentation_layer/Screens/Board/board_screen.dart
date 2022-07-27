@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:to_do/Bussiness_Layer/cubit.dart';
 import 'package:to_do/Bussiness_Layer/states.dart';
-import 'package:to_do/presentation_layer/Screens/Board/widgets/task.dart';
+import 'package:to_do/presentation_layer/Screens/Board/widgets/list_of_tasks.dart';
 import 'package:to_do/presentation_layer/Screens/Board/widgets/text.dart';
 import 'package:to_do/presentation_layer/widgets/main_button.dart';
 import 'package:to_do/utilities/routes.dart';
@@ -99,73 +99,22 @@ class _BoardingScreenState extends State<BoardingScreen> {
                     child: IndexedStack(
                       index: AppCubit.get(context).indexOfList,
                       children: [
-                        AppCubit.get(context).tasks.length > 0
-                            ? ListView.builder(
-                                scrollDirection: Axis.vertical,
-                                itemBuilder: (context, index) => Task(
-                                  item: AppCubit.get(context).tasks[index],
-                                ),
-                                itemCount: AppCubit.get(context).tasks.length,
-                              )
-                            : Center(
-                                child: Text(
-                                'Your Tasks will be her',
-                                style: TextStyle(
-                                    color: Colors.grey,
-                                    fontSize: SizeConfig.defaultSize! * 2),
-                              )),
-                        AppCubit.get(context).completedTasks.length > 0
-                            ? ListView.builder(
-                                scrollDirection: Axis.vertical,
-                                itemBuilder: (context, index) => Task(
-                                  item: AppCubit.get(context)
-                                      .completedTasks[index],
-                                ),
-                                itemCount:
-                                    AppCubit.get(context).completedTasks.length,
-                              )
-                            : Center(
-                                child: Text(
-                                'Your Completed Tasks will be her',
-                                style: TextStyle(
-                                    color: Colors.grey,
-                                    fontSize: SizeConfig.defaultSize! * 2),
-                              )),
-                        AppCubit.get(context).unCompletedTasks.length > 0
-                            ? ListView.builder(
-                                scrollDirection: Axis.vertical,
-                                itemBuilder: (context, index) => Task(
-                                  item: AppCubit.get(context)
-                                      .unCompletedTasks[index],
-                                ),
-                                itemCount: AppCubit.get(context)
-                                    .unCompletedTasks
-                                    .length,
-                              )
-                            : Center(
-                                child: Text(
-                                'Your  UnCompleted Tasks will be her',
-                                style: TextStyle(
-                                    color: Colors.grey,
-                                    fontSize: SizeConfig.defaultSize! * 2),
-                              )),
-                        AppCubit.get(context).favoriteTasks.length > 0
-                            ? ListView.builder(
-                                scrollDirection: Axis.vertical,
-                                itemBuilder: (context, index) => Task(
-                                  item: AppCubit.get(context)
-                                      .favoriteTasks[index],
-                                ),
-                                itemCount:
-                                    AppCubit.get(context).favoriteTasks.length,
-                              )
-                            : Center(
-                                child: Text(
-                                'Your Favorite Tasks will be her',
-                                style: TextStyle(
-                                    color: Colors.grey,
-                                    fontSize: SizeConfig.defaultSize! * 2),
-                              )),
+                        ListOfTasks(
+                          text: 'Your Tasks will be her',
+                          items: AppCubit.get(context).tasks,
+                        ),
+                        ListOfTasks(
+                          text: 'Your Completed Tasks will be her',
+                          items: AppCubit.get(context).completedTasks,
+                        ),
+                        ListOfTasks(
+                          text: 'Your  UnCompleted Tasks will be her',
+                          items: AppCubit.get(context).unCompletedTasks,
+                        ),
+                        ListOfTasks(
+                          text: 'Your Favorite Tasks will be her',
+                          items: AppCubit.get(context).favoriteTasks,
+                        ),
                       ],
                     ),
                   ),

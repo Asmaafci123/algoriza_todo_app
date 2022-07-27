@@ -40,15 +40,24 @@ class ItemOfIndexedStack extends StatelessWidget {
           height: SizeConfig.defaultSize! * 3,
         ),
         Expanded(
-          child: ListView.separated(
-              shrinkWrap: true,
-              scrollDirection: Axis.vertical,
-              separatorBuilder: (context, index) => SizedBox(
-                    height: SizeConfig.defaultSize! * 1.6,
+          child: AppCubit.get(context).tasksOfSomeDate.length > 0
+              ? ListView.separated(
+                  shrinkWrap: true,
+                  scrollDirection: Axis.vertical,
+                  separatorBuilder: (context, index) => SizedBox(
+                        height: SizeConfig.defaultSize! * 1.6,
+                      ),
+                  itemCount: AppCubit.get(context).tasksOfSomeDate.length,
+                  itemBuilder: ((context, index) => TaskOfSchedual(
+                      task: AppCubit.get(context).tasksOfSomeDate[index])))
+              : Center(
+                  child: Text(
+                    'Day is empty',
+                    style: TextStyle(
+                        color: Colors.grey,
+                        fontSize: SizeConfig.defaultSize! * 2.2),
                   ),
-              itemCount: AppCubit.get(context).tasksOfSomeDate.length,
-              itemBuilder: ((context, index) => TaskOfSchedual(
-                  task: AppCubit.get(context).tasksOfSomeDate[index]))),
+                ),
         )
       ],
     );

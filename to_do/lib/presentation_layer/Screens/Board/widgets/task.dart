@@ -34,30 +34,40 @@ class Task extends StatelessWidget {
               color: Colors.black, fontSize: SizeConfig.defaultSize! * 1.7),
         ),
         const Spacer(),
-        IconButton(
-            onPressed: () {
-              AppCubit.get(context).changeFavStatus();
+        Row(
+          children: [
+            IconButton(
+                onPressed: () {
+                  AppCubit.get(context).delete(id: item['id']);
+                },
+                icon: const Icon(Icons.delete),
+                color: Colors.red),
+            IconButton(
+                onPressed: () {
+                  AppCubit.get(context).changeFavStatus();
 
-              AppCubit.get(context).fav == false
-                  ? AppCubit.get(context)
-                      .updateFavorite(favorite: "0", id: item['id'])
-                  : AppCubit.get(context)
-                      .updateFavorite(favorite: "1", id: item['id']);
-              AppCubit.get(context).getAllTasks();
-            },
-            icon: item['favorite'] == '0'
-                ? Image(
-                    height: SizeConfig.defaultSize! * 2.5,
-                    image: const AssetImage(
-                      'assets/icons/dislike.png',
-                    ),
-                  )
-                : Image(
-                    height: SizeConfig.defaultSize! * 2.5,
-                    image: const AssetImage(
-                      'assets/icons/like.png',
-                    ),
-                  ))
+                  AppCubit.get(context).fav == false
+                      ? AppCubit.get(context)
+                          .updateFavorite(favorite: "0", id: item['id'])
+                      : AppCubit.get(context)
+                          .updateFavorite(favorite: "1", id: item['id']);
+                  AppCubit.get(context).getAllTasks();
+                },
+                icon: item['favorite'] == '0'
+                    ? Image(
+                        height: SizeConfig.defaultSize! * 2.5,
+                        image: const AssetImage(
+                          'assets/icons/dislike.png',
+                        ),
+                      )
+                    : Image(
+                        height: SizeConfig.defaultSize! * 2.5,
+                        image: const AssetImage(
+                          'assets/icons/like.png',
+                        ),
+                      )),
+          ],
+        )
       ],
     );
   }

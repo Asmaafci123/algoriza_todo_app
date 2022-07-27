@@ -27,3 +27,5 @@ class UpdateFavoriteTaskState extends AppStates {}
 class ChangeCheckBoxStatusState extends AppStates {}
 
 class ChangeFavStatusState extends AppStates {}
+
+class DeleteTaskFromDataBaseState extends AppStates {}

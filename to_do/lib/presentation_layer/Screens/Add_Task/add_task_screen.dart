@@ -1,8 +1,12 @@
+import 'dart:math';
+
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:to_do/Bussiness_Layer/cubit.dart';
 import 'package:to_do/Bussiness_Layer/states.dart';
+import 'package:to_do/models/notification_model.dart';
 import 'package:to_do/presentation_layer/Screens/Add_Task/widgets/dropdownbutton.dart';
 import 'package:to_do/presentation_layer/Screens/Add_Task/widgets/header_text.dart';
 import 'package:to_do/presentation_layer/Screens/Add_Task/widgets/inpute_field.dart';
@@ -95,7 +99,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                         return null;
                       },
                       controller: AppCubit.get(context).dateController,
-                      hintText: DateFormat('y - MM - d').format(_date),
+                      hintText: DateFormat('y-MM-d').format(_date),
                       suffixIcon: Icons.keyboard_arrow_down_outlined,
                       onPressedSuffix: () {
                         showDatePicker(
@@ -106,7 +110,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                         ).then((value) {
                           setState(() {
                             String dateformatted =
-                                DateFormat('y - d - MM').format(value!);
+                                DateFormat('y-d-MM').format(value!);
                             AppCubit.get(context).dateController.text =
                                 dateformatted;
                           });
@@ -231,8 +235,15 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                       text: 'Create a task',
                       onTap: () {
                         if (_formKey.currentState!.validate()) {
+                          DateTime dt = DateTime.parse('2022-07-027 05:05:00');
+
+                          AppCubit.get(context).onCreateNotification(
+                              TaskNotificationModel(
+                                  id: Random().nextInt(2147483647),
+                                  dateTime: dt));
                           AppCubit.get(context).insertUserData();
-                          AppCubit.get(context)..getAllTasks();
+                          AppCubit.get(context).getAllTasks();
+
                           Navigator.pop(context);
                         }
                       },

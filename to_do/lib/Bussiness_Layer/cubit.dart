@@ -1,9 +1,11 @@
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:to_do/Bussiness_Layer/states.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart' as p;
+import 'package:to_do/models/notification_model.dart';
 import 'package:to_do/utilities/colors.dart';
 
 class AppCubit extends Cubit<AppStates> {
@@ -143,7 +145,7 @@ class AppCubit extends Cubit<AppStates> {
     tasksOfSomeDate = [];
     String d = DateFormat('y - d - MM').format(date);
     for (int i = 0; i < tasks.length; i++) {
-      if (tasks[i]['date'] == d) {
+      if (tasks[i]['date'] == d && tasks[i]['status'] == 'new') {
         tasksOfSomeDate.add(tasks[i]);
       }
     }
@@ -173,5 +175,30 @@ class AppCubit extends Cubit<AppStates> {
   void changeFavStatus() {
     fav = !fav;
     emit(ChangeFavStatusState());
+  }
+
+  Future<void> onCreateNotification(
+      TaskNotificationModel notificationModel) async {
+    await AwesomeNotifications().createNotification(
+      content: NotificationContent(
+        id: notificationModel.id,
+        channelKey: 'schedule_tasks',
+        title: notificationModel.title,
+        body: notificationModel.body,
+        displayOnForeground: true,
+      ),
+      schedule: NotificationCalendar(
+          day: notificationModel.dateTime.day,
+          hour: notificationModel.dateTime.hour,
+          minute: notificationModel.dateTime.minute,
+          second: notificationModel.dateTime.second),
+    );
+  }
+
+  void delete({required int id}) async {
+    database.rawDelete('DELETE FROM tasks WHERE id=?', [id]).then((value) {
+      getAllTasks();
+      emit(DeleteTaskFromDataBaseState());
+    });
   }
 }
